@@ -781,7 +781,7 @@ var BlogRoutes = [
 /***/ "../../../../../src/app/blog/dentca-3d/dentca-3d.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Dentca Center Location</h1>\n\n<!-- <app-map></app-map> -->"
+module.exports = "<h1>Dentca Center Location</h1>\n\n<app-map></app-map>"
 
 /***/ }),
 
@@ -1631,7 +1631,7 @@ var AuthService = (function () {
      */
     AuthService.prototype.login = function (data) {
         var _this = this;
-        return this.http.post('login.json', { spree_user: data }).map(function (res) {
+        return this.http.post('spree/login.json', { spree_user: data }).map(function (res) {
             data = res.json();
             if (!data.error) {
                 // Setting token after login
@@ -1692,7 +1692,7 @@ var AuthService = (function () {
      */
     AuthService.prototype.authorized = function () {
         return this.http
-            .get('api/v1/users')
+            .get('spree/api/v1/users')
             .map(function (res) { return res.json(); });
         // catch should be handled here with the http observable
         // so that only the inner obs dies and not the effect Observable
@@ -1708,7 +1708,7 @@ var AuthService = (function () {
      */
     AuthService.prototype.logout = function () {
         var _this = this;
-        return this.http.get('logout.json')
+        return this.http.get('spree/logout.json')
             .map(function (res) {
             // Setting token after login
             localStorage.removeItem('user');
@@ -1794,7 +1794,7 @@ var CheckoutService = (function () {
      * @memberof CheckoutService
      */
     CheckoutService.prototype.createNewLineItem = function (variant_id) {
-        return this.http.post("api/v1/orders/" + this.orderNumber + "/line_items?order_token=" + this.getOrderToken(), {
+        return this.http.post("spree/api/v1/orders/" + this.orderNumber + "/line_items?order_token=" + this.getOrderToken(), {
             line_item: {
                 variant_id: variant_id,
                 quantity: 1
@@ -1813,7 +1813,7 @@ var CheckoutService = (function () {
      */
     CheckoutService.prototype.fetchCurrentOrder = function () {
         var _this = this;
-        return this.http.get('api/v1/orders/current').map(function (res) {
+        return this.http.get('spree/api/v1/orders/current').map(function (res) {
             var order = res.json();
             if (order) {
                 var token = order.token;
@@ -1835,7 +1835,7 @@ var CheckoutService = (function () {
      * @memberof CheckoutService
      */
     CheckoutService.prototype.getOrder = function (orderNumber) {
-        return this.http.get("api/v1/orders/" + orderNumber + ".json").map(function (res) {
+        return this.http.get("spree/api/v1/orders/" + orderNumber + ".json").map(function (res) {
             var order = res.json();
             return order;
         });
@@ -1854,7 +1854,7 @@ var CheckoutService = (function () {
             'Content-Type': 'text/plain',
             'X-Spree-Token': user && user.spree_api_key
         });
-        return this.http.post('api/v1/orders.json', {}, { headers: headers }).map(function (res) {
+        return this.http.post('spree/api/v1/orders.json', {}, { headers: headers }).map(function (res) {
             var order = res.json();
             var token = order.token;
             _this.setOrderTokenInLocalStorage({ order_token: token });
@@ -1871,7 +1871,7 @@ var CheckoutService = (function () {
      */
     CheckoutService.prototype.deleteLineItem = function (lineItem) {
         var _this = this;
-        return this.http.delete("api/v1/orders/" + this.orderNumber + "/line_items/" + lineItem.id + "?order_token=" + this.getOrderToken())
+        return this.http.delete("spree/api/v1/orders/" + this.orderNumber + "/line_items/" + lineItem.id + "?order_token=" + this.getOrderToken())
             .map(function () {
             _this.store.dispatch(_this.actions.removeLineItemSuccess(lineItem));
         });
@@ -1885,7 +1885,7 @@ var CheckoutService = (function () {
      */
     CheckoutService.prototype.changeOrderState = function () {
         var _this = this;
-        return this.http.put("api/v1/checkouts/" + this.orderNumber + "/next.json?order_token=" + this.getOrderToken(), {}).map(function (res) {
+        return this.http.put("spree/api/v1/checkouts/" + this.orderNumber + "/next.json?order_token=" + this.getOrderToken(), {}).map(function (res) {
             var order = res.json();
             _this.store.dispatch(_this.actions.changeOrderStateSuccess(order));
         });
@@ -1900,7 +1900,7 @@ var CheckoutService = (function () {
      */
     CheckoutService.prototype.updateOrder = function (params) {
         var _this = this;
-        return this.http.put("api/v1/checkouts/" + this.orderNumber + ".json?order_token=" + this.getOrderToken(), params).map(function (res) {
+        return this.http.put("spree/api/v1/checkouts/" + this.orderNumber + ".json?order_token=" + this.getOrderToken(), params).map(function (res) {
             var order = res.json();
             _this.store.dispatch(_this.actions.updateOrderSuccess(order));
         });
@@ -1913,7 +1913,7 @@ var CheckoutService = (function () {
      * @memberof CheckoutService
      */
     CheckoutService.prototype.availablePaymentMethods = function () {
-        return this.http.get("api/v1/orders/" + this.orderNumber + "/payments/new?order_token=" + this.getOrderToken()).map(function (res) {
+        return this.http.get("spree/api/v1/orders/" + this.orderNumber + "/payments/new?order_token=" + this.getOrderToken()).map(function (res) {
             var payments = res.json();
             return payments;
         });
@@ -1929,7 +1929,7 @@ var CheckoutService = (function () {
      */
     CheckoutService.prototype.createNewPayment = function (paymentModeId, paymentAmount) {
         var _this = this;
-        return this.http.post("api/v1/orders/" + this.orderNumber + "/payments?order_token=" + this.getOrderToken(), {
+        return this.http.post("spree/api/v1/orders/" + this.orderNumber + "/payments?order_token=" + this.getOrderToken(), {
             payment: {
                 payment_method_id: paymentModeId,
                 amount: paymentAmount
@@ -2247,7 +2247,7 @@ var ProductService = (function () {
      * @memberof ProductService
      */
     ProductService.prototype.getProduct = function (id) {
-        return this.http.get("/api/v1/products/" + id)
+        return this.http.get("/spree/api/v1/products/" + id)
             .map(function (res) { return res.json(); });
     };
     /**
@@ -2258,7 +2258,7 @@ var ProductService = (function () {
      * @memberof ProductService
      */
     ProductService.prototype.getTaxonomies = function () {
-        return this.http.get("/api/v1/taxonomies?set=nested")
+        return this.http.get("/spree/api/v1/taxonomies?set=nested")
             .map(function (res) { return res.json(); });
     };
     /**
@@ -2269,7 +2269,7 @@ var ProductService = (function () {
      * @memberof ProductService
      */
     ProductService.prototype.getProducts = function () {
-        return this.http.get("/api/v1/products")
+        return this.http.get("/spree/api/v1/products")
             .map(function (res) { return res.json(); });
     };
     return ProductService;
@@ -2926,7 +2926,7 @@ DashOrdersComponent = __decorate([
 /***/ "../../../../../src/app/dashboard/dash-products/dash-products.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"table\">\n    <div class=\"table-header\">\n      <h2>Configure Products Order</h2>\n      <p>[Underconstruction page] Please don't order yet. Thank you for your cooperation.</p>\n    </div>\n    <div class=\"table-content\">\n      <!-- <li *ngFor=\"let product of products$\">\n        asdf\n      </li> -->\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"table\">\n    <div class=\"table-header\">\n      <h2>Configure Products Order</h2>\n      <p>[Underconstruction page] Please don't order yet. Thank you for your cooperation.</p>\n    </div>\n    <div class=\"table-content\">\n       <li *ngFor=\"let product of products$ | async\">\n        asdf\n      </li> \n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -2971,16 +2971,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DashProductsComponent = (function () {
+    // products: Product[];
     function DashProductsComponent(store, actions) {
         this.store = store;
         this.actions = actions;
         // Get all products for the product list component
         this.store.dispatch(this.actions.getAllProducts());
         this.products$ = this.store.select(__WEBPACK_IMPORTED_MODULE_1__product_reducers_selectors__["a" /* getProducts */]);
-        // this.products = this.products$;
     }
     DashProductsComponent.prototype.ngOnInit = function () {
-        // console.log("pro", this.products$);
+        // console.log(this.products);
     };
     return DashProductsComponent;
 }());
@@ -3200,6 +3200,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__dash_coupon_dash_coupon_component__ = __webpack_require__("../../../../../src/app/dashboard/dash-coupon/dash-coupon.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__dash_report_dash_report_component__ = __webpack_require__("../../../../../src/app/dashboard/dash-report/dash-report.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__dash_configuration_dash_configuration_component__ = __webpack_require__("../../../../../src/app/dashboard/dash-configuration/dash-configuration.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__core_services_product_service__ = __webpack_require__("../../../../../src/app/core/services/product.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DashboardModule", function() { return DashboardModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3207,6 +3208,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -3243,6 +3245,9 @@ DashboardModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_11__dash_coupon_dash_coupon_component__["a" /* DashCouponComponent */],
             __WEBPACK_IMPORTED_MODULE_12__dash_report_dash_report_component__["a" /* DashReportComponent */],
             __WEBPACK_IMPORTED_MODULE_13__dash_configuration_dash_configuration_component__["a" /* DashConfigurationComponent */]
+        ],
+        providers: [
+            __WEBPACK_IMPORTED_MODULE_14__core_services_product_service__["a" /* ProductService */]
         ]
     })
 ], DashboardModule);
@@ -3840,7 +3845,7 @@ var _a, _b, _c;
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = " <app-breadcrumb [taxonomies]=\"taxonomies$ | async\"></app-breadcrumb>\r\n<div class=\"col-xs-12\">\r\n    <!-- <div class=\"col-xs-3\">\r\n        <app-taxons [taxonomies]=\"taxonomies$ | async\"></app-taxons>\r\n    </div> -->\r\n    <div class=\"col-xs-12\">\r\n        <app-content [products]=\"products$ | async\" [taxonIds]=\"selectedTaxonIds$ | async\">\r\n        </app-content>\r\n    </div>\r\n</div> \r\n\r\n<!-- <h1>home</h1> -->"
+module.exports = " <app-breadcrumb [taxonomies]=\"taxonomies$ | async\"></app-breadcrumb>\r\n<div class=\"col-xs-12\">\r\n    <div class=\"col-xs-3\">\r\n        <app-taxons [taxonomies]=\"taxonomies$ | async\"></app-taxons>\r\n    </div>\r\n    <div class=\"col-xs-9\">\r\n        <app-content [products]=\"products$ | async\" [taxonIds]=\"selectedTaxonIds$ | async\">\r\n        </app-content>\r\n    </div>\r\n</div> \r\n\r\n<!-- <h1>home</h1> -->"
 
 /***/ }),
 
@@ -5336,7 +5341,7 @@ var _a;
 /***/ "../../../../../src/app/shared/components/map/map.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div id=\"map\"></div> -->"
+module.exports = "<div id=\"map\"></div>"
 
 /***/ }),
 
@@ -5773,7 +5778,7 @@ var UserService = (function () {
      * @memberof UserService
      */
     UserService.prototype.getOrderDetail = function (orderNumber) {
-        return this.http.get("api/v1/orders/" + orderNumber)
+        return this.http.get("spree/api/v1/orders/" + orderNumber)
             .map(function (res) { return res.json(); });
     };
     /**
@@ -5785,7 +5790,7 @@ var UserService = (function () {
      */
     UserService.prototype.getUser = function () {
         var user_id = JSON.parse(localStorage.getItem('user')).id;
-        return this.http.get("api/v1/users/" + user_id)
+        return this.http.get("spree/api/v1/users/" + user_id)
             .map(function (res) { return res.json(); });
     };
     return UserService;
@@ -5820,8 +5825,7 @@ module.exports = __webpack_require__.p + "search-sprite.d5ab50f1b815dfaf3976c6ce
 var environment = {
     production: false,
     // API_ENDPOINT: 'http://localhost:3000/',
-    API_ENDPOINT: 'http://34.211.157.52:3000/',
-    // API_ENDPOINT: 'https://angularspree-new.herokuapp.com/',
+    API_ENDPOINT: 'https://angularspree-new.herokuapp.com/',
     AppName: 'Dentca'
 };
 //# sourceMappingURL=environment.js.map
