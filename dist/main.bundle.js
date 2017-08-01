@@ -781,7 +781,7 @@ var BlogRoutes = [
 /***/ "../../../../../src/app/blog/dentca-3d/dentca-3d.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Dentca Center Location</h1>\n\n<app-map></app-map>"
+module.exports = "<h1>Dentca Center Location</h1>\n\n<!-- <app-map></app-map> -->"
 
 /***/ }),
 
@@ -2926,7 +2926,7 @@ DashOrdersComponent = __decorate([
 /***/ "../../../../../src/app/dashboard/dash-products/dash-products.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"table\">\n    <div class=\"table-header\">\n      <h2>Configure Products Order</h2>\n      <p>[Underconstruction page] Please don't order yet. Thank you for your cooperation.</p>\n    </div>\n    <div class=\"table-content\">\n      <li *ngFor=\"let product of products$\">\n        asdf\n      </li>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"table\">\n    <div class=\"table-header\">\n      <h2>Configure Products Order</h2>\n      <p>[Underconstruction page] Please don't order yet. Thank you for your cooperation.</p>\n    </div>\n    <div class=\"table-content\">\n      <!-- <li *ngFor=\"let product of products$\">\n        asdf\n      </li> -->\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -5336,7 +5336,7 @@ var _a;
 /***/ "../../../../../src/app/shared/components/map/map.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div id=\"map\"></div>"
+module.exports = "<!-- <div id=\"map\"></div> -->"
 
 /***/ }),
 
@@ -5819,7 +5819,8 @@ module.exports = __webpack_require__.p + "search-sprite.d5ab50f1b815dfaf3976c6ce
 // The file contents for the current environment will overwrite these during build.
 var environment = {
     production: false,
-    API_ENDPOINT: 'http://localhost:3000/',
+    // API_ENDPOINT: 'http://localhost:3000/',
+    API_ENDPOINT: 'http://34.211.157.52:3000/',
     // API_ENDPOINT: 'https://angularspree-new.herokuapp.com/',
     AppName: 'Dentca'
 };
