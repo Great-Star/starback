@@ -283,6 +283,7 @@ var SignUpComponent = (function () {
                     });
                 }
             });
+            this.router.navigateByUrl('/admin');
         }
         else {
             keys.forEach(function (val) {

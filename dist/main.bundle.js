@@ -3845,7 +3845,7 @@ var _a, _b, _c;
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = " <app-breadcrumb [taxonomies]=\"taxonomies$ | async\"></app-breadcrumb>\r\n<div class=\"col-xs-12\">\r\n    <div class=\"col-xs-3\">\r\n        <app-taxons [taxonomies]=\"taxonomies$ | async\"></app-taxons>\r\n    </div>\r\n    <div class=\"col-xs-9\">\r\n        <app-content [products]=\"products$ | async\" [taxonIds]=\"selectedTaxonIds$ | async\">\r\n        </app-content>\r\n    </div>\r\n</div> \r\n\r\n<!-- <h1>home</h1> -->"
+module.exports = " <app-breadcrumb [taxonomies]=\"taxonomies$ | async\"></app-breadcrumb>\r\n<div class=\"col-xs-12\">\r\n    <!-- <div class=\"col-xs-3\">\r\n        <app-taxons [taxonomies]=\"taxonomies$ | async\"></app-taxons>\r\n    </div> -->\r\n    <div class=\"col-xs-12\">\r\n        <app-content [products]=\"products$ | async\" [taxonIds]=\"selectedTaxonIds$ | async\">\r\n        </app-content>\r\n    </div>\r\n</div> \r\n\r\n<!-- <h1>home</h1> -->"
 
 /***/ }),
 
